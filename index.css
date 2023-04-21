@@ -230,27 +230,19 @@ a {
 
 /* bookmark card */
 
-.bookmark{
+.bookmark {
     position: relative;
-
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-
-    background: rgba(255, 255, 255, 0);
+    background: rgba(87, 87, 87, 0.918); /* semi-transparent white background */
     border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.301);
-    backdrop-filter: blur(11.1px);
-    -webkit-backdrop-filter: blur(11.1px);
-    border: 1px solid rgba(255, 255, 255, 0.082);
-
     padding: .5em;
-    box-shadow: 1px 1px 94px 30px rgba(0, 0, 0, 0.801) inset;
-
     width: 100%;
     height: 4em;
     text-align: center;
+    box-shadow: inset 0 0 3em rgba(0, 0, 0, 0.986); /* inner shadow */
 }
 
 .bookmark > p{
@@ -258,7 +250,7 @@ a {
 }
 
 .bookmark:hover{
-    box-shadow:none;
+    background: rgba(70, 70, 70, 0.692);
     cursor: pointer;
 }
 
