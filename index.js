@@ -202,26 +202,49 @@ function extractWebsiteName(url) {
     return domain;
 }
 
+function toggleDropdown(dropdownMenu) {
+    dropdownMenu.classList.toggle('hide-dropdown');
+}
+
 chrome.bookmarks.getTree(function(bookmarkTreeNodes) {
     let bookmarks = bookmarkTreeNodes[0].children[0].children;
-    
-    // Map the bookmarks to a new array with title, url, and favicon properties
-    let bookmarkInfo = bookmarks.map(bookmark => ({
-        title: bookmark.title,
-        url: bookmark.url,
-        favicon: `https://www.google.com/s2/favicons?domain=${bookmark.url}`
-    }));
 
-    bookmarkInfo.forEach(bookmark => 
-        document.getElementById('bookmarks').innerHTML += `
-    <a href='${bookmark.url}'>
-        <div class='bookmark'>
-                <img class="icon" src="${bookmark.favicon}">
-                <p>${extractWebsiteName(bookmark.url)}</p>  
-        </div>
-    </a>
-    `);
+    bookmarks.forEach(bookmark => {
+        // first i check if the item a folder or a bookmark (because some people save folders to the bookmarks)
+        if (bookmark.hasOwnProperty("children")) {
+            const dropdown = document.createElement('a');
+            dropdown.innerHTML = `
+                <div class="bookmark">
+                    <img class="icon" src="./folder-icon.png">
+                    <p>${bookmark.title}</p>  
+                    <div class='dropdown-menu hide-dropdown'>
+                        ${bookmark.children.map(child => `<a href='${child.url}'><p>${extractWebsiteName(child.url)}</p></a>`).join('')}
+                    </div>
+                </div>
+            `;
+            dropdown.addEventListener('click', () => {
+                const dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                toggleDropdown(dropdownMenu);
+            });
+            document.addEventListener('click', (e) => {
+                const bookmarkElement = e.target.closest('.bookmark');
+                const dropdownMenu = dropdown.querySelector('.dropdown-menu');
+            
+                if (!bookmarkElement) {
+                    dropdownMenu.classList.add('hide-dropdown')
+                }
+            });
+            document.getElementById('bookmarks').appendChild(dropdown);
+        } else {
+            const bookmarkElement = document.createElement('a');
+            bookmarkElement.href = bookmark.url;
+            bookmarkElement.innerHTML = `
+                <div class='bookmark'>
+                    <img class="icon" src="https://www.google.com/s2/favicons?domain=${bookmark.url}">
+                    <p>${extractWebsiteName(bookmark.url)}</p>  
+                </div>
+            `;
+            document.getElementById('bookmarks').appendChild(bookmarkElement);
+        }
+    });
 });
-
-
-  

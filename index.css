@@ -161,42 +161,77 @@ a {
 
 .grid-container{
     width: 80%;
-    overflow: hidden;
+    overflow-y: scroll;
 }
 
 .grid {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(6em, 1fr));
-    gap: .5em;
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
     overflow-x: hidden;
     overflow-y: scroll;
     padding: 1em;
     padding-bottom: 2em;
+    gap: 1em;
 }
 
-.grid::-webkit-scrollbar {
+.grid > * {
+    width: 4em;
+    height: 4em;
+}
+
+.grid::-webkit-scrollbar,
+.grid-container::-webkit-scrollbar {
     width: 2px;
     height: 2px;
 }
 
-.grid::-webkit-scrollbar-thumb {
+.grid::-webkit-scrollbar-thumb,
+.grid-container::-webkit-scrollbar-thumb {
     background-color: #7e7e7e00;
     border-radius: 1em;
 }
 
-.grid::-webkit-scrollbar-thumb:hover {
+.grid::-webkit-scrollbar-thumb:hover,
+.grid-container::-webkit-scrollbar-thumb:hover {
     background-color: #ffffff00;
 }
 
-.grid::-webkit-scrollbar-track {
+.grid::-webkit-scrollbar-track,
+.grid-container::-webkit-scrollbar-track {
     background-color: #f0f0f000;
 }
-  
+
+/* dropdown menu */
+
+.hide-dropdown{
+    display: none !important;
+}
+
+.dropdown-menu{
+    display: block;
+    position: absolute;
+    z-index: 1000;
+    width: 10em;
+    bottom: -5em;
+    right: 0;
+    background-color: #242424;
+    font-size: .3em;
+}
+
+.dropdown-menu > a > p {
+    padding: .5em 2em;
+    margin: 0;
+}
+
+.dropdown-menu > a > p:hover{
+    background-color: rgba(0, 0, 0, 0.575);
+}
 
 /* bookmark card */
 
 .bookmark{
+    position: relative;
 
     display: flex;
     align-items: center;
@@ -213,7 +248,6 @@ a {
     padding: .5em;
     box-shadow: 1px 1px 94px 30px rgba(0, 0, 0, 0.801) inset;
 
-    overflow: hidden;
     width: 100%;
     height: 4em;
     text-align: center;
@@ -225,6 +259,7 @@ a {
 
 .bookmark:hover{
     box-shadow:none;
+    cursor: pointer;
 }
 
 /* Weather Widget Styling */
